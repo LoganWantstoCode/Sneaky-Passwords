@@ -1,3 +1,9 @@
+var charLength = 12;
+var choice = [];
+var symbols = ['!','@','#','$','%','^','&','*','(',')','_','-','=','+','`','~','<','>','?','|'];
+var lower = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+var nums = ['1','2','3','4','5','6','7','8','9','0'];
+var upper = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 // Assignment Code
 const generateBtn = document.querySelector("#generate");
 
@@ -5,8 +11,19 @@ generateBtn.addEventListener ("click", writePassword);
 
 console.log(generateBtn);
 
+function writePassword() {
+  var CorrectAnswers = USelection();  //true or false? 
+  var passwordText = document.querySelector("#password"); 
+  
+  if (CorrectAnswers) {
+  var APassword = generatePassword();
+  passwordText.value = APassword;
+      } else {
+        passwordText.value = '';
+      }
+        }
 //Data variable functions
-function getRandomLower() {
+/*function getRandomLower() {
   return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
   }
 function getRandomUpper() {
@@ -19,63 +36,38 @@ function getRandomSymbol() {
   const symbol ='!@#$%^&*(){}[]=<>/,.';
   return symbol[Math.floor(Math.random() * symbol.length)];
 }
-var USelection = '';
-var newPassword = '';
+*/
 
 
 
 
 function generatePassword() {
-  USelection = '';
-  var Choice = +window.prompt("8-128?");
-  console.log(Choice);
-  console.log(typeof Choice);
-  Choice = parseInt(Choice);
-    if (typeof Choice === 'number') {
-      if (+Choice <= 128 && Choice >= 8) {}
-          else if (Object.is(Choice, NaN)) {
-          alert("Nice going, not a number so not going to work");
-          console.log("failure, not a number");
-          }
-          else {
-            window.prompt("Try again, 8-128 please");
-            console.log('number not in specified range')
-              }
-                }
-//selection
-const lower = window.confirm("Include Lowercase OK=Y or Cancel=N");
-const upper = window.confirm("Include Uppercase OK=Y or Cancel=N");
-const nums = window.confirm("Include numbers OK=Y or Cancel=N");
-const symbols = window.confirm("Include Symbols OK=Y or Cancel=N");
+var password = "";
+for(var i = 0; i < charLength; i++) {
+  var randomChar = Math.floor(Math.random() * choice.length);
+    password = password + choice[randomChar];
+      }
+      return password;
+      }
 
-if (lower) {
-  USelection = USelection + getRandomLower;
-}
-if (upper) {
-  USelection = USelection + getRandomUpper;
-}
-if (nums) {
-  USelection = USelection + getRandomNumber;
-}
-if (symbols) {
-  USelection = USelection + getRandomSymbol;
-}
-
-var length = Choice;
-for (var i = 1; i <= length; i++) {
-  var generatePassword = Math.floor(Math.random() * USelection.length);
-  newPassword = newPassword + USelection[generatePassword];
-  console.log(newPassword);
-}
-return newPassword;
-} 
- 
-
-
-function writePassword() {
-  newPassword = "";
-  const password = generatePassword();
-  const passwordText = document.querySelector("#password");
-
-  passwordText.value = password;
+function USelection() {
+  choice = [];
+  charLength = parseInt(prompt("How many characters 8-128?"));
+  if(isNaN(charLength) || charLength < 8 || charLength > 128) {
+    alert("Length must be integer in 8-128 range. GG try again noob.");
+    return false;
+  }
+  if (confirm("Lowercase or nah?")) {
+    choice = choice.concat(lower);
+  }
+  if (confirm("Uppercase or nah?")) {
+    choice = choice.concat(upper);
+  }
+  if (confirm("Numbers or nah?")) {
+    choice = choice.concat(nums);
+  }
+  if (confirm("Symbols or nah?")) {
+    choice = choice.concat(symbols);
+  }
+  return true;
 }
